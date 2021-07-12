@@ -1,0 +1,4 @@
+{
+  // takes react code and modern js code and compiles it down for all browsers to use
+  "presets": ["@babel/preset-env", "@babel/preset-react"]
+}
