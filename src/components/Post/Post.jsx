@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { BsPerson, BsThreeDotsVertical } from "react-icons/bs";
 import { FiMessageSquare, FiHeart, FiMail } from "react-icons/fi";
@@ -10,7 +10,11 @@ export default function Post({ date, text, id, del, put }) {
   const [toggle, setToggle] = useState(false);
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(text);
+  const menuRef = useRef(null);
 
+  const handleToggle = (e) => setToggle(!toggle);
+
+  // api request functions
   const handleDelete = () => del(`${id}`);
   const handlePut = () => {
     if (!value) return;
@@ -29,7 +33,7 @@ export default function Post({ date, text, id, del, put }) {
         <div>
           <BsThreeDotsVertical
             style={{ ...Icons.dots }}
-            onClick={() => setToggle(!toggle)}
+            onClick={handleToggle}
           />
 
           {/* Modal */}
@@ -60,7 +64,7 @@ export default function Post({ date, text, id, del, put }) {
 
       {/* Update post button */}
       {edit && (
-        <ButtonContainer>
+        <ButtonContainer ref={menuRef}>
           <Button color={blue} onClick={handlePut}>
             Update
           </Button>
@@ -102,9 +106,7 @@ const Info = styled.div`
   justify-content: space-between;
   margin-bottom: 2rem;
 `;
-const Name = styled.h2`
-  font-size: 24px;
-
+const Name = styled.h3`
   margin-right: 0.5rem;
 `;
 const Username = styled.p`
@@ -182,7 +184,7 @@ const Icons = {
     borderRadius: "50%",
     height: "2rem",
     width: "2rem",
-    marginRight: "1rem",
+    marginRight: ".5rem",
   },
   dots: {
     cursor: "pointer",
